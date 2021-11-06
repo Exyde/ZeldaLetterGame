@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 XBound, YBound;
     float cursorStep = 2.5f;
     bool canShoot = false;
-    float timeBtwShoot = .8f;
+    public float timeBtwShoot = .8f;
     float timeBeforeNextShoot = 0;
     public float shootForce = 1000f;
 
@@ -29,20 +29,22 @@ public class PlayerController : MonoBehaviour
     private void HandleCursor(){
         if (Input.GetKeyDown(KeyCode.Q) && _cursor.transform.localPosition.x > XBound.x ){
             _cursor.transform.localPosition += new Vector3 ( -cursorStep, 0, 0);
+            Camera.main.transform.LookAt(_cursor.transform.position);
+            
         }
         if (Input.GetKeyDown(KeyCode.D) && _cursor.transform.localPosition.x < XBound.y ){
             _cursor.transform.localPosition += new Vector3 ( cursorStep, 0, 0);
+            Camera.main.transform.LookAt(_cursor.transform.position);
+
         }
         if (Input.GetKeyDown(KeyCode.S) && _cursor.transform.localPosition.y > YBound.x ){
-            print(_cursor.transform.localPosition);
             _cursor.transform.localPosition += new Vector3 (0, -cursorStep,  0);
-            print(_cursor.transform.localPosition);
+            Camera.main.transform.LookAt(_cursor.transform.position);
 
         }
         if (Input.GetKeyDown(KeyCode.Z) && _cursor.transform.localPosition.y < YBound.y ){
-            print(_cursor.transform.localPosition);
             _cursor.transform.localPosition += new Vector3 ( 0, cursorStep, 0);
-            print(_cursor.transform.localPosition);
+            Camera.main.transform.LookAt(_cursor.transform.position);
 
         }
     }

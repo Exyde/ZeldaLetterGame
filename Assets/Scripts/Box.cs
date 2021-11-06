@@ -17,6 +17,8 @@ public class Box : MonoBehaviour
         Letter _letter = null;
         if (other.TryGetComponent<Letter>(out _letter)){
             if (_letter != null){
+                CameraShake.Shake(.1f, .2f);
+
                 if((int)_letter._letterType == (int)this._boxType){
                     _gm.UpdateScore();                    
                 }

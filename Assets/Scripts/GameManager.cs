@@ -4,14 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System.IO;
+using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System;
 public class GameManager : MonoBehaviour{
     public TextMeshProUGUI _scoreText;
     public TextMeshProUGUI _timerText;
+    public TextMeshProUGUI _gameOverText;
+
+
+    public GameObject _gameOverPanel;
+    public GameObject _UIPanel;
 
     [Space]
 
     public int _score;
+    int _bestScore = 0;
+    string scoreFile = "score.txt";
     public float _timer;
 
     PlayerController _playerController;
@@ -22,7 +33,9 @@ public class GameManager : MonoBehaviour{
         _scoreText.SetText("Score \n {0}", _score);
         _playerController = FindObjectOfType<PlayerController>();
         isGamePlaying = true;
-
+        _gameOverPanel.SetActive(false);
+        _UIPanel.SetActive(true);
+        LoadBestScore();
     }
 
     private void Update() {
@@ -36,16 +49,74 @@ public class GameManager : MonoBehaviour{
             isGamePlaying = false;
             _timerText.SetText("Timer \n {0:0}", 0);
             _playerController.enabled = false;
-            //Show replay
+            _UIPanel.SetActive(false);
 
+
+            if (_score > _bestScore) SaveBestScore();
+            _gameOverText.SetText("- Game Over - \n Score : {0} \n Best Score : {1} ", _score, _bestScore);
+            _gameOverPanel.SetActive(true);
+        }
+    }
+
+    public void UpdateScore(){
+        _score += 1;
+        _scoreText.SetText("Score \n {0}", _score);
+    }
+    public void RestartGame(){
+        SceneManager.LoadScene(0);
+    }
+
+    void LoadBestScore(){
+        //Load best score from a Data Path on user side.
+        
+        string dataPath = string.Format("{0}/{1}", Application.persistentDataPath, scoreFile);
+
+        try
+        {
+            if (File.Exists(dataPath))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                FileStream fileStream = File.Open(dataPath, FileMode.Open);
+                _bestScore = (int)binaryFormatter.Deserialize(fileStream);
+                fileStream.Close();
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to Load: " + e.Message);
         }
 
     }
 
-    public void UpdateScore(){
-        _score += 100;
-        _scoreText.SetText("Score \n {0}", _score);
+    void SaveBestScore(){
+        //Save best score to data path;
 
+        string dataPath = string.Format("{0}/{1}", Application.persistentDataPath, scoreFile);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        FileStream fileStream;
+        _bestScore = _score;
+
+        try
+        {
+            if (File.Exists(dataPath))
+            {
+                File.WriteAllText(dataPath, string.Empty);
+                fileStream = File.Open(dataPath, FileMode.Open);
+            }
+            else
+            {
+                fileStream = File.Create(dataPath);
+            }
+
+            binaryFormatter.Serialize(fileStream, _bestScore);
+            fileStream.Close();
+
+
+        }
+        catch (Exception e)
+        {
+           Debug.LogError("Failed to Load: " + e.Message);
+        }
     }
 
 }
