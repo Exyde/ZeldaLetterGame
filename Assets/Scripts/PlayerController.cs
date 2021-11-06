@@ -23,24 +23,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update(){
         HandleCursor();
-
-        if(timeBeforeNextShoot <= 0 && !canShoot) {
-            canShoot = true;
-            _currentLetter = Instantiate (_LetterPrefab, _LetterHolder.transform.position, transform.rotation *  Quaternion.Euler(120, 0, 0));
-        }
-
-        if(!canShoot ){
-            timeBeforeNextShoot -= Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && canShoot){
-            canShoot = false;
-            timeBeforeNextShoot = timeBtwShoot;
-
-           Rigidbody rb = _currentLetter.GetComponent<Rigidbody>();
-           rb.useGravity = true;
-           rb.AddForce(((_cursor.transform.position - _currentLetter.transform.position).normalized + new  Vector3 ( 0, Random.Range(0, 0.05f) )) * shootForce, ForceMode.Force);
-        }
+        HandleShooting();
     }
 
     private void HandleCursor(){
@@ -61,6 +44,28 @@ public class PlayerController : MonoBehaviour
             _cursor.transform.localPosition += new Vector3 ( 0, cursorStep, 0);
             print(_cursor.transform.localPosition);
 
+        }
+    }
+
+    private void HandleShooting(){
+        if(timeBeforeNextShoot <= 0 && !canShoot) {
+            canShoot = true;
+            _currentLetter = Instantiate (_LetterPrefab, _LetterHolder.transform.position, transform.rotation *  Quaternion.Euler(140, 0, 0));
+           // _currentLetter.transform.parent = _LetterHolder.transform;
+        }
+
+        if(!canShoot ){
+            timeBeforeNextShoot -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && canShoot){
+            canShoot = false;
+            timeBeforeNextShoot = timeBtwShoot;
+
+           Rigidbody rb = _currentLetter.GetComponent<Rigidbody>();
+           rb.useGravity = true;
+           rb.AddForce(((_cursor.transform.position - _currentLetter.transform.position).normalized + new  Vector3 ( 0, Random.Range(0, 0.05f) )) * shootForce, ForceMode.Force);
+           _currentLetter.GetComponent<Letter>().isRotating = false;
         }
     }
     

@@ -11,6 +11,8 @@ public class Letter : MonoBehaviour
     public GameObject FaceB;
     Rigidbody rb;
 
+    public bool isRotating = false;
+
 
     void Awake()
     {
@@ -27,6 +29,12 @@ public class Letter : MonoBehaviour
     void SetMaterialBasedOnType(){
        FaceA.GetComponent<MeshRenderer>().material = _materials[(int)_letterType];
        FaceB.GetComponent<MeshRenderer>().material = _materials[(int)_letterType];
+    }
+
+    private void Update() {
+        if (isRotating){
+            transform.Rotate(new Vector3(0,1,1));
+        }
     }
 
 }
