@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float timeBtwShoot = .8f;
     float timeBeforeNextShoot = 0;
     public float shootForce = 1000f;
+    public float _camSpeed = 2f;
 
     void Start(){
         _cursor.transform.localPosition = _anchors[0].position;
@@ -24,27 +25,28 @@ public class PlayerController : MonoBehaviour
     void Update(){
         HandleCursor();
         HandleShooting();
+
+        //Camera.main.transform.LookAt(_cursor.transform.position);
+
     }
 
     private void HandleCursor(){
         if (Input.GetKeyDown(KeyCode.Q) && _cursor.transform.localPosition.x > XBound.x ){
             _cursor.transform.localPosition += new Vector3 ( -cursorStep, 0, 0);
-            Camera.main.transform.LookAt(_cursor.transform.position);
-            
+        Vector3 direction = _cursor.transform.position - Camera.main.transform.position;
+        Quaternion toRotation = Quaternion.FromToRotation(transform.forward, direction);
+        Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, _camSpeed * Time.time);
         }
         if (Input.GetKeyDown(KeyCode.D) && _cursor.transform.localPosition.x < XBound.y ){
             _cursor.transform.localPosition += new Vector3 ( cursorStep, 0, 0);
-            Camera.main.transform.LookAt(_cursor.transform.position);
 
         }
         if (Input.GetKeyDown(KeyCode.S) && _cursor.transform.localPosition.y > YBound.x ){
             _cursor.transform.localPosition += new Vector3 (0, -cursorStep,  0);
-            Camera.main.transform.LookAt(_cursor.transform.position);
 
         }
         if (Input.GetKeyDown(KeyCode.Z) && _cursor.transform.localPosition.y < YBound.y ){
             _cursor.transform.localPosition += new Vector3 ( 0, cursorStep, 0);
-            Camera.main.transform.LookAt(_cursor.transform.position);
 
         }
     }
