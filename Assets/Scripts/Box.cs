@@ -6,6 +6,11 @@ public class Box : MonoBehaviour
 {
     public enum BoxType{ Ring, Flare, Magic, Bubbles, Spark, Flower}
     public BoxType _boxType;
+    GameManager _gm;
+
+    private void Awake() {
+        _gm = FindObjectOfType<GameManager>();
+    }
 
     private void OnTriggerEnter(Collider other) {
 
@@ -13,7 +18,7 @@ public class Box : MonoBehaviour
         if (other.TryGetComponent<Letter>(out _letter)){
             if (_letter != null){
                 if((int)_letter._letterType == (int)this._boxType){
-                    print(_letter._letterType);
+                    _gm.UpdateScore();                    
                 }
             }
         }
