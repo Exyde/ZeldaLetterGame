@@ -13,7 +13,7 @@ public class Box : MonoBehaviour
         if (other.TryGetComponent<Letter>(out _letter)){
             if (_letter != null){
                 if((int)_letter._letterType == (int)this._boxType){
-                    Destroy(other.gameObject);
+                    print(_letter._letterType);
                 }
             }
         }

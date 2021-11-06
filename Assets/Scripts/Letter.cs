@@ -12,12 +12,14 @@ public class Letter : MonoBehaviour
     Rigidbody rb;
 
     public bool isRotating = false;
-
-
+    float yRot, zRot;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+        yRot = Random.Range(-.5f, .5f);
+        zRot = Random.Range(-.5f, .5f);
+
         SetRandomType();
         SetMaterialBasedOnType();
     }
@@ -33,7 +35,7 @@ public class Letter : MonoBehaviour
 
     private void Update() {
         if (isRotating){
-            transform.Rotate(new Vector3(0,1,1));
+            transform.Rotate(new Vector3(0,yRot,zRot));
         }
     }
 
