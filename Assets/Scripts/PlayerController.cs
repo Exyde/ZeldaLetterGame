@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject _LetterPrefab;
     public GameObject _LetterHolder;
     GameObject _currentLetter = null;
+    public GameObject _fakeLookAt;
 
     public GameObject _cursor;
     public Transform[] _anchors;
@@ -21,32 +22,38 @@ public class PlayerController : MonoBehaviour
 
     void Start(){
         _cursor.transform.localPosition = _anchors[0].position;
+        _fakeLookAt.transform.position = Camera.main.transform.position;
+        _fakeLookAt.transform.rotation = Camera.main.transform.rotation;
+
     }
     void Update(){
         HandleCursor();
         HandleShooting();
 
-        //Camera.main.transform.LookAt(_cursor.transform.position);
+        if (Camera.main.transform.rotation != _fakeLookAt.transform.rotation){
+            Camera.main.transform.rotation = Quaternion.Lerp( Camera.main.transform.rotation, _fakeLookAt.transform.rotation, Time.deltaTime * _camSpeed);
+        }
 
     }
 
     private void HandleCursor(){
         if (Input.GetKeyDown(KeyCode.Q) && _cursor.transform.localPosition.x > XBound.x ){
             _cursor.transform.localPosition += new Vector3 ( -cursorStep, 0, 0);
-        Vector3 direction = _cursor.transform.position - Camera.main.transform.position;
-        Quaternion toRotation = Quaternion.FromToRotation(transform.forward, direction);
-        Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, _camSpeed * Time.time);
+            _fakeLookAt.transform.LookAt(_cursor.transform.position);
         }
         if (Input.GetKeyDown(KeyCode.D) && _cursor.transform.localPosition.x < XBound.y ){
             _cursor.transform.localPosition += new Vector3 ( cursorStep, 0, 0);
+            _fakeLookAt.transform.LookAt(_cursor.transform.position);
 
         }
         if (Input.GetKeyDown(KeyCode.S) && _cursor.transform.localPosition.y > YBound.x ){
             _cursor.transform.localPosition += new Vector3 (0, -cursorStep,  0);
+            _fakeLookAt.transform.LookAt(_cursor.transform.position);
 
         }
         if (Input.GetKeyDown(KeyCode.Z) && _cursor.transform.localPosition.y < YBound.y ){
             _cursor.transform.localPosition += new Vector3 ( 0, cursorStep, 0);
+            _fakeLookAt.transform.LookAt(_cursor.transform.position);
 
         }
     }

@@ -25,7 +25,7 @@ public class Letter : MonoBehaviour
     }
 
     void SetRandomType (){
-        _letterType = (LetterType)(Random.Range(0, 5));
+        _letterType = (LetterType)(Random.Range(0, 6));
     }
 
     void SetMaterialBasedOnType(){

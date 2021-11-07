@@ -2146,6 +2146,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.1633089, y: 2.114327, z: 0.7193181}
   m_Center: {x: -0.030613529, y: -0.018368252, z: -0.14034097}
+--- !u!1 &1083235141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1083235142}
+  m_Layer: 0
+  m_Name: FakeLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1083235142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083235141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1505215, y: 3.429744, z: -6.9394956}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1106409161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,6 +2505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _LetterPrefab: {fileID: 4119490483642570440, guid: 13d2426de712cb347a2b7cf4208b134b, type: 3}
   _LetterHolder: {fileID: 1446866802}
+  _fakeLookAt: {fileID: 1083235141}
   _cursor: {fileID: 719627331}
   _anchors:
   - {fileID: 2037729227}
@@ -2487,7 +2518,7 @@ MonoBehaviour:
   YBound: {x: 2.75, y: 5.25}
   timeBtwShoot: 0.45
   shootForce: 1000
-  _camSpeed: 2
+  _camSpeed: 100
 --- !u!1001 &1355182619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2621,7 +2652,7 @@ MonoBehaviour:
   _gameOverPanel: {fileID: 563865173}
   _UIPanel: {fileID: 157510355}
   _score: 0
-  _timer: 10
+  _timer: 30
 --- !u!4 &1363338369
 Transform:
   m_ObjectHideFlags: 0
