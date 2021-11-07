@@ -8,6 +8,7 @@ public class Box : MonoBehaviour
     public BoxType _boxType;
     GameManager _gm;
 
+    public AudioClip _positiveFeedback, _negativeFeedback;
     private void Awake() {
         _gm = FindObjectOfType<GameManager>();
     }
@@ -20,7 +21,12 @@ public class Box : MonoBehaviour
                 CameraShake.Shake(.1f, .2f);
 
                 if((int)_letter._letterType == (int)this._boxType){
-                    _gm.UpdateScore();                    
+                    _gm.UpdateScore(1);                    
+                    CameraShake.PlaySound(_positiveFeedback, .5f);
+                } else {
+                    CameraShake.PlaySound(_negativeFeedback, .5f);
+                    _gm.UpdateScore(-1);                    
+
                 }
             }
         }

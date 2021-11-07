@@ -18,6 +18,15 @@ public class CameraShake : MonoBehaviour
         _instance.StartCoroutine(_instance.cShake(duration, amount));
     }
 
+    public static void PlaySound(AudioClip clip, float volume = 1.0f){
+        GameObject go = new GameObject();
+        AudioSource ad = go.AddComponent<AudioSource>();
+        ad.clip = clip;
+        ad.volume = volume;
+        ad.Play();
+        Destroy(go, clip.length);
+    }
+
     public IEnumerator cShake (float duration, float amount) {
         float endTime = Time.time + duration;
 

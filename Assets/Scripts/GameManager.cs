@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour{
         }
     }
 
-    public void UpdateScore(){
-        _score += 1;
+    public void UpdateScore(int amount){
+        _score += amount;
         _scoreText.SetText("Score \n {0}", _score);
     }
     public void RestartGame(){
