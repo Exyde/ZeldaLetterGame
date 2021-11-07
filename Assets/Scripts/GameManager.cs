@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour{
         _scoreText.SetText("Score \n {0}", _score);
     }
     public void RestartGame(){
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void LoadBestScore(){
